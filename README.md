@@ -1,6 +1,6 @@
-# gameoflife
+# Game of life / Algoritmos I - UBA
 
-##Simulador para el autómata celular Conway's Game of Life.
+## Simulador para el autómata celular Conway's Game of Life.
 
 El "tablero de juego" es una malla formada por cuadrados ("células") que se extiende por el infinito en todas las direcciones.
 Cada célula tiene 8 células vecinas, que son las que están próximas a ella, incluidas las diagonales. Las células tienen dos 
