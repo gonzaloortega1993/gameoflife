@@ -2,32 +2,30 @@
 Conway's Game of Life
 ---------------------
 
-https://es.wikipedia.org/wiki/Juego_de_la_vida
+https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
-El "tablero de juego" es una malla formada por cuadrados ("células") que se
-extiende por el infinito en todas las direcciones. Cada célula tiene 8 células
-vecinas, que son las que están próximas a ella, incluidas las diagonales. Las
-células tienen dos estados: están "vivas" o "muertas" (o "encendidas" y
-"apagadas"). El estado de la malla evoluciona a lo largo de unidades de tiempo
-discretas (se podría decir que por turnos). El estado de todas las células se
-tiene en cuenta para calcular el estado de las mismas al turno siguiente.
-Todas las células se actualizan simultáneamente.
+The "board of game" issa matrix formed by squares ("cells") that extends
+by the infinit in every direction. Every cell has 8 neighbor cells, 
+that are the cells surround it, diagonals included. The cells has two states: 
+they are "alive" or "dead". The matrix state evolves evoluciona throught unitys of time
+(it could be said by turns). The state of every cell is used for calculate
+their state in the next turn. All the cells are refreshed at the same time.
 
-Las transiciones dependen del número de células vecinas vivas:
+The transitions depends of the number of neighbor alive cells:
 
-* Una célula muerta con exactamente 3 células vecinas vivas "nace" (al turno
-  siguiente estará viva).
-* Una célula viva con 2 ó 3 células vecinas vivas sigue viva, en otro caso
-  muere o permanece muerta (por "soledad" o "superpoblación").
+*   One dead cell with exactky 3 neighbor alive cells "borns"
+    (In the next turn will be alive).
+  
+*   One alive cell with 2 or 3 neighbor alive cells continue alive,
+    in other case dies or stay dead.
 """
 
 def main():
     """
-    Función principal del programa. Crea el estado inicial de Game of LIfe
-    y muestra la simulación paso a paso mientras que el usuaio presione
-    Enter.
+    Main function of the program. Creates the initial state of the Game of LIfe
+    and shows the simulation step by step while the user press Enter.
     """
-    life = life_crear([
+    life = life_create([
         '..........',
         '.#.....#.#',
         '..#....#..',
@@ -38,140 +36,139 @@ def main():
         '..#......#',
     ])
     while True:
-        for linea in life_mostrar(life):
-            print(linea)
+        for line in life_show(life):
+            print(line)
         print()
-        input("Presione Enter para continuar, CTRL+C para terminar")
+        input("Press Enter to continue, CTRL+C to finish")
         print()
-        life = life_siguiente(life)
+        life = following_life(life)
 
 #-----------------------------------------------------------------------------
 
-def life_crear(mapa):
+def life_create(map_):
     """
-    Crea el estado inicial de Game of life a partir de una disposición
-    representada con los caracteres '.' y '#'.
+    Creates the initial state of Game of life based on a disposition
+    represented with '.' and '#' characters.
 
-    `mapa` debe ser una lista de cadenas, donde cada cadena representa una
-    fila del tablero, y cada caracter puede ser '.' (vacío) o '#' (célula).
-    Todas las filas deben tener la misma cantidad de caracteres.
+    `map_` should be a list of strings, every sting represents a file of the 
+    board and every character can be '.' (empty) o '#' (cell).
+    Every file must have the same amount of characters.
 
-    Devuelve el estado del juego, que es una lista de listas donde cada
-    sublista representa una fila, y cada elemento de la fila es False (vacío)
-    o True (célula).
+    Returns the state of the game, is a list of lists where each sublist
+    represents a file, and every element of the file is False (empty)
+    o True (cell).
     """
     life=[]
-    for cadena in mapa:
-        fila=[]
-        for valor in cadena:
-            if valor ==".":
-                fila.append(False)
-            elif valor == "#":
-                fila.append(True)
-        life.append(fila)
+    for string in map_:
+        row=[]
+        for value in string:
+            if value ==".":
+                row.append(False)
+            elif value == "#":
+                row.append(True)
+        life.append(row)
     return life
 
-def pruebas_life_crear():
-    """Prueba el correcto funcionamiento de life_crear()."""
-    # Para cada prueba se utiliza la instrucción `assert <condición>`, que
-    # evalúa que la <condición> sea verdadera, y lanza un error en caso
-    # contrario.
-    assert life_crear([]) == []
-    assert life_crear(['.']) == [[False]]
-    assert life_crear(['#']) == [[True]]
-    assert life_crear(['#.', '.#']) == [[True, False], [False, True]]
+def test_life_create():
+    """Checks that life_create() works properly."""
+    # For each test uses the instruction `assert <condition>`, that
+    # evaluates the <condition> be true and returns an error in the opossite case
+    assert life_create([]) == []
+    assert life_create(['.']) == [[False]]
+    assert life_create(['#']) == [[True]]
+    assert life_create(['#.', '.#']) == [[True, False], [False, True]]
 
 #-----------------------------------------------------------------------------
 
-def life_mostrar(life):
+def life_show(life):
     """
-    Crea una representación del estado del juego para mostrar en pantalla.
+    Creates a representation of the game's state to show in the screen.
 
-    Recibe el estado del juego (Trues & Falses) creado con life_crear() y
-    devuelve una lista de cadenas (cada caracter debe ser '.' (vacío) o '#' (célula)
-    con la representación del tablero para mostrar en la pantalla.
-    Cada una de las cadenas representa una fila.
+    Receives the state of the game (Trues & Falses) created with life_create() and
+    returns a list of strings (every character must be '.' (empty) or '#' (cell))
+    with the representation of the board to show in the screen.
+    Every string represents a row.
     """
-    mostrar = []
-    for lista in life:
-        fila = ""
-        for valor in lista:
-            if valor == False:
-                fila += "."
-            elif valor == True:
-                fila += "#"
-        mostrar.append(fila)
-    return mostrar
+    show = []
+    for list_ in life:
+        row = ""
+        for value in list_:
+            if value == False:
+                row += "."
+            elif value == True:
+                row += "#"
+        show.append(row)
+    return show
 
-def pruebas_life_mostrar():
-    """Prueba el correcto funcionamiento de life_mostrar()."""
-    assert life_mostrar([]) == []
-    assert life_mostrar([[False]]) == ['.']
-    assert life_mostrar([[True]]) == ['#']
-    assert life_mostrar([[True, False], [False, True]]) == ['#.', '.#']
+def test_life_show():
+    """Checks that life_show() works correctly."""
+    assert life_show([]) == []
+    assert life_show([[False]]) == ['.']
+    assert life_show([[True]]) == ['#']
+    assert life_show([[True, False], [False, True]]) == ['#.', '.#']
 
 #-----------------------------------------------------------------------------
 
-def cant_adyacentes(life, f, c):
-    '''Recibe una lista de cadenas (life_mostrar) representando el estado del tablero y una posición (f y c).
-    Calcula la cantidad de celulas vivas al rededor de la posición de la celda. Como el tablero es infinito
-    cuando la longitud de life es menor a 9 celdas el tablero se espeja. 
-    Para calcular la cantidad de celulas vivas al rededor de determinada celda accedemos: 
-    * Al estado de life[f-1][c-1], life[f-1][c], life[f-1][c_+_1], 
-    * Al estado de life[f][c-1], life[f][c_+_1], 
-    * Al estado de life[f+1][c-1], life[f+1][c], life[f+1][c_+_1], 
+def adjacents_amount(life, r, c):
+    '''Recives a list of strings (life_show) representing the state of the board and one position (r and c).
+    Calculates the quantity of alive cells around the position of the cell. As the board is infinite, when
+    the lenght of life is less than 9 cells the board is mirrored.
+    To calculate the amount of alive cells around determinated cell we access: 
+    * To the state of life[f-1][c-1], life[f-1][c], life[f-1][c_+_1], 
+    * To the state of  life[f][c-1], life[f][c_+_1], 
+    * To the state of  life[f+1][c-1], life[f+1][c], life[f+1][c_+_1], 
 
-    Por ejemplo si el tablero es generado por life_crear(['.']) todas las celdas seran == None, ya que se replican.
+    For example if the board is generated by life_create(['.']) all the cells will be == None, they replicates.
     '''
     
     
-    cantidad = 0
+    amount = 0
 
-    fila_arriba = life[f-1]
-    fila_abajo = life[(f+1) % len(life)]
-    c_mas1=(c+1) % len(life[0])
+    row_up = life[r-1]
+    row_down = life[(r+1) % len(life)]
+    column_plus_one=(c+1) % len(life[0])
 
-    adyacentes = [fila_arriba[c-1], fila_arriba[c], fila_arriba[c_mas1], 
-                    life[f][c-1], life[f][c_mas1],
-                fila_abajo[c-1], fila_abajo[c], fila_abajo[c_mas1]]
+    adjacents = [row_up[c-1], row_up[c], row_up[column_plus_one], 
+                    life[r][c-1], life[r][column_plus_one],
+                row_down[c-1], row_down[c], row_down[column_plus_one]]
 
-    for celda in adyacentes:
-        if celda == True:
-            cantidad += 1
-    return cantidad
+    for cell in adjacents:
+        if cell == True:
+            amount += 1
+    return amount
 
-def pruebas_cant_adyacentes():
-    """Prueba el correcto funcionamiento de cant_adyacentes()."""
-    assert cant_adyacentes(life_crear(['.']), 0, 0) == 0
-    assert cant_adyacentes(life_crear(['#']), 0, 0) == 8
-    assert cant_adyacentes(life_crear(['..', '..']), 0, 0) == 0
-    assert cant_adyacentes(life_crear(['..', '..']), 0, 1) == 0
-    assert cant_adyacentes(life_crear(['##', '..']), 0, 0) == 2
-    assert cant_adyacentes(life_crear(['##', '..']), 0, 1) == 2
-    assert cant_adyacentes(life_crear(['#.', '.#']), 0, 0) == 4
-    assert cant_adyacentes(life_crear(['##', '##']), 0, 0) == 8
-    assert cant_adyacentes(life_crear(['.#.', '#.#', '.#.']), 1, 1) == 4
-    assert cant_adyacentes(life_crear(['.#.', '..#', '.#.']), 1, 1) == 3
-    assert cant_adyacentes(life_crear(['...', '.#.', '...']), 1, 1) == 0
+def test_adjacents_amount():
+    """Checks that adjacents_amount() works properly."""
+    assert adjacents_amount(life_create(['.']), 0, 0) == 0
+    assert adjacents_amount(life_create(['#']), 0, 0) == 8
+    assert adjacents_amount(life_create(['..', '..']), 0, 0) == 0
+    assert adjacents_amount(life_create(['..', '..']), 0, 1) == 0
+    assert adjacents_amount(life_create(['##', '..']), 0, 0) == 2
+    assert adjacents_amount(life_create(['##', '..']), 0, 1) == 2
+    assert adjacents_amount(life_create(['#.', '.#']), 0, 0) == 4
+    assert adjacents_amount(life_create(['##', '##']), 0, 0) == 8
+    assert adjacents_amount(life_create(['.#.', '#.#', '.#.']), 1, 1) == 4
+    assert adjacents_amount(life_create(['.#.', '..#', '.#.']), 1, 1) == 3
+    assert adjacents_amount(life_create(['...', '.#.', '...']), 1, 1) == 0
 
 #-----------------------------------------------------------------------------
 
-def celda_siguiente(life, f, c):
+def following_cell(life, r, c):
     """
-    Calcula el estado siguiente de la celda ubicada en la fila `f` y la
-    columna `c`.
+    Calculates the following state of the cell located in the row `r` and the
+    column `c`.
 
-    Devuelve True si en la celda (f, c) habrá una célula en la siguiente
-    iteración, o False si la celda quedará vacía.
+    Returns True if the cell (r, c) will be alive in the next iteration
+    or False if the cell will be empty.
 
-    * Una célula muerta con exactamente 3 células vecinas vivas "nace" (al turno
-    siguiente estará viva).
-    * Una célula viva con 2 ó 3 células vecinas vivas sigue viva, en otro caso
-    muere o permanece muerta (por "soledad" o "superpoblación").
+    * One dead cell with exactly 3 neighbor alive cells "borns" (in the following
+    turn will be alive).
+    * One alive cell with 3 or 2 alive neighbor cells continues alive, in other case
+    deads or continue dead.
     """
-    celda = life[f][c]
-    n = cant_adyacentes(life, f, c)
-    if celda == False:
+    cell = life[r][c]
+    n = adjacents_amount(life, r, c)
+    if cell == False:
         if n == 3:
             return True
         return False
@@ -179,50 +176,48 @@ def celda_siguiente(life, f, c):
         return True
     return False
 
-def pruebas_celda_siguiente():
-    """Prueba el correcto funcionamiento de celda_siguiente()."""
-    assert celda_siguiente(life_crear(['.']), 0, 0) == False
-    assert celda_siguiente(life_crear(['..', '..']), 0, 0) == False
-    assert celda_siguiente(life_crear(['..', '..']), 0, 1) == False
-    assert celda_siguiente(life_crear(['##', '..']), 0, 0) == True
-    assert celda_siguiente(life_crear(['##', '..']), 0, 1) == True
-    assert celda_siguiente(life_crear(['#.', '.#']), 0, 0) == False
-    assert celda_siguiente(life_crear(['##', '##']), 0, 0) == False
-    assert celda_siguiente(life_crear(['.#.', '#.#', '.#.']), 1, 1) == False
-    assert celda_siguiente(life_crear(['.#.', '..#', '.#.']), 1, 1) == True
-    assert celda_siguiente(life_crear(['...', '.#.', '...']), 1, 1) == False
+def test_following_cell():
+    """Checks that following_cell() works correctly."""
+    assert following_cell(life_create(['.']), 0, 0) == False
+    assert following_cell(life_create(['..', '..']), 0, 0) == False
+    assert following_cell(life_create(['..', '..']), 0, 1) == False
+    assert following_cell(life_create(['##', '..']), 0, 0) == True
+    assert following_cell(life_create(['##', '..']), 0, 1) == True
+    assert following_cell(life_create(['#.', '.#']), 0, 0) == False
+    assert following_cell(life_create(['##', '##']), 0, 0) == False
+    assert following_cell(life_create(['.#.', '#.#', '.#.']), 1, 1) == False
+    assert following_cell(life_create(['.#.', '..#', '.#.']), 1, 1) == True
+    assert following_cell(life_create(['...', '.#.', '...']), 1, 1) == False
 
 #-----------------------------------------------------------------------------
 
-def life_siguiente(life):
+def following_life(life):
     """
-    Calcula el siguiente estado del juego.
+    Calculates the following game state
 
-    Recibe el estado actual del juego (lista de listas de False/True) y
-    devuelve un nuevo estado que representa la siguiente iteración según las
-    reglas del juego.
+    Receives the actual state of the game (list of lists of False/True) and
+    returns a new state that represents the following iteration.
 
-    Importante: El "tablero" se considera "infinito": las celdas del borde
-    izquierdo están conectadas a la izquierda con las celdas del borde
-    derecho, y viceversa. Las celdas del borde superior están conectadas hacia
-    arriba con las celdas del borde inferior, y viceversa.
+    Import: The "board" is considered "infinit": the cells of the left edge
+    are connected at the left with the right edge cells and, vice versa.
+    The cells of the superior edhe are connected at the up with the inferior 
+    edge and vice versa.
     """
-    siguiente = []
-    for f in range(len(life)):
-        fila = []
+    following = []
+    for r in range(len(life)):
+        row = []
         for c in range(len(life[0])):
-            fila.append(celda_siguiente(life, f, c))
-        siguiente.append(fila)
-    return siguiente
+            row.append(following_cell(life, r, c))
+        following.append(row)
+    return following
 
 #-----------------------------------------------------------------------------
 
-def pruebas():
-    """Ejecuta todas las pruebas"""
-    pruebas_life_crear()
-    pruebas_life_mostrar()
-    pruebas_cant_adyacentes()
-    pruebas_celda_siguiente()
-#pruebas()
+def tests():
+    """Executes all the tests"""
+    test_life_create()
+    test_life_show()
+    test_adjacents_amount()
+    test_following_cell()
 main()
-
+tests()
