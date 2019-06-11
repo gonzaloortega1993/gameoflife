@@ -1,22 +1,20 @@
 # Game of life / Algoritmos I - UBA
 
-## Simulador para el autómata celular Conway's Game of Life.
+## Simulator of the cellular automaton Conway's Game of Life.
 
-El "tablero de juego" es una malla formada por cuadrados ("células") que se extiende por el infinito en todas las direcciones.
-Cada célula tiene 8 células vecinas, que son las que están próximas a ella, incluidas las diagonales. Las células tienen dos 
-estados: están "vivas" o "muertas" (o "encendidas" y "apagadas"). El estado de la malla evoluciona a lo largo de unidades de 
-tiempo discretas (se podría decir que por turnos). El estado de todas las células se tiene en cuenta para calcular el estado 
-de las mismas al turno siguiente. Todas las células se actualizan simultáneamente.
 
-Las transiciones dependen del número de células vecinas vivas:
+The "board of game" is a matrix formed by squares ("cells") that extends
+by the infinit in every direction. Every cell has 8 neighbor cells, 
+that are the cells surround it, diagonals included. The cells has two states: 
+they are "alive" or "dead". The matrix state evolves evoluciona throught unitys of time
+(it could be said by turns). The state of every cell is used for calculate
+their state in the next turn. All the cells are refreshed at the same time.
 
-Una célula muerta con exactamente 3 células vecinas vivas "nace" (al turno siguiente estará viva).
-Una célula viva con 2 ó 3 células vecinas vivas sigue viva, en otro caso muere o permanece muerta (por "soledad" o 
-"superpoblación").
-Consigna
-Se provee una implementación incompleta del Game of Life. El objetivo es completar la implementación en todos los lugares 
-donde dice return '???'. Una vez comlpetado, al ejecutar python3 life.py debería verse el funcionamiento del Game of Life.
+The transitions depends of the number of neighbor alive cells:
 
-Notar que el código incluye pruebas utilizando la instrucción de Python assert <condición>, que pueden ser de utilidad para 
-entender cuál es el resultado esperado de cada función en diferentes casos. El simulador funcionará sólamente cuando todas 
-las pruebas pasen correctamente. No es necesario agregar ni modificar pruebas.
+*   One dead cell with exactky 3 neighbor alive cells "borns"
+    (In the next turn will be alive).
+  
+*   One alive cell with 2 or 3 neighbor alive cells continue alive,
+    in other case dies or stay dead.
+
