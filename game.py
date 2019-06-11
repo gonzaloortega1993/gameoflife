@@ -4,7 +4,7 @@ Conway's Game of Life
 
 https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 
-The "board of game" issa matrix formed by squares ("cells") that extends
+The "board of game" is a matrix formed by squares ("cells") that extends
 by the infinit in every direction. Every cell has 8 neighbor cells, 
 that are the cells surround it, diagonals included. The cells has two states: 
 they are "alive" or "dead". The matrix state evolves evoluciona throught unitys of time
